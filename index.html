@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wolomi Landing Page Concepts — by Renzo</title>
+<style>
+  :root{--navy:#1F3864;--blue:#2E75B6;--pink:#D4537E;--muted:#5b6877;--bg:#f6f8fb}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#22303f;background:var(--bg);line-height:1.6}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 22px 60px}
+  .kick{color:var(--pink);font-weight:700;font-size:13px;letter-spacing:1px;text-transform:uppercase}
+  h1{color:var(--navy);font-size:30px;letter-spacing:-.6px;margin:6px 0 10px}
+  .lead{color:var(--muted);font-size:17px;max-width:640px;margin-bottom:14px}
+  .ctx{background:#fff;border:1px solid #e6ecf3;border-left:4px solid var(--pink);border-radius:10px;padding:14px 16px;font-size:14.5px;color:#3a4654;margin-bottom:30px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:680px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid #e6ecf3;border-radius:16px;padding:22px 20px;box-shadow:0 8px 26px rgba(31,56,100,.06);display:flex;flex-direction:column}
+  .tag{font-size:12px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.6px}
+  .card h2{color:var(--navy);font-size:21px;margin:6px 0 8px}
+  .card p{color:var(--muted);font-size:14.5px;margin-bottom:12px}
+  ul{margin:0 0 18px 18px}li{font-size:14px;margin-bottom:6px}
+  .btn{margin-top:auto;display:block;text-align:center;background:var(--navy);color:#fff;text-decoration:none;padding:13px;border-radius:11px;font-weight:700;font-size:15px}
+  .btn:hover{background:#16294a}
+  .why{margin-top:34px;background:#fff;border:1px solid #e6ecf3;border-radius:16px;padding:24px 22px}
+  .why h3{color:var(--navy);font-size:18px;margin-bottom:10px}
+  .why table{width:100%;border-collapse:collapse;font-size:14px}
+  .why td{padding:9px 8px;border-bottom:1px solid #eef2f7;vertical-align:top}
+  .why td:first-child{color:var(--muted);width:42%}
+  .foot{color:var(--muted);font-size:12.5px;margin-top:30px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="kick">Interview demo · built by Renzo</div>
+  <h1>Two ways to fix Wolomi's lead form</h1>
+  <p class="lead">The current eligibility form asks ~18 questions up front — thorough for enrollment, but heavy for cold paid traffic. Here are two friendlier intake concepts that qualify a mom first, then collect the rest.</p>
+  <div class="ctx"><strong>The idea:</strong> capture the 4 things that decide eligibility — county, life-stage, Medi-Cal status, and consented contact — in under 30 seconds. Everything else (race, due date, language, device, etc.) gets collected <em>after</em> she's engaged, by the Mama Companion or a step-2 form. Same data, far less drop-off.</p>
+
+  <div class="grid">
+    <div class="card">
+      <span class="tag">Concept A</span>
+      <h2>Stepped form + progress bar</h2>
+      <p>One question per screen with an encouraging progress bar. Familiar, fast, and high-converting — the proven workhorse for paid lead-gen.</p>
+      <ul>
+        <li>Tappable big-button answers</li>
+        <li>Animated progress + microcopy ("Almost there 💛")</li>
+        <li>Instant "you qualify" + next-steps screen</li>
+      </ul>
+      <a class="btn" href="concept-a-progress.html">Try Concept A →</a>
+    </div>
+    <div class="card">
+      <span class="tag">Concept B</span>
+      <h2>Conversational chat intake</h2>
+      <p>Feels like texting a real Mama Companion. Warm and human — fits Wolomi's trust-first brand and the community-health-worker model.</p>
+      <ul>
+        <li>Chat bubbles from "Maya," a Mama Companion</li>
+        <li>Typing indicators + progress dots</li>
+        <li>Highest emotional warmth; great for cold social traffic</li>
+      </ul>
+      <a class="btn" href="concept-b-conversational.html">Try Concept B →</a>
+    </div>
+  </div>
+
+  <div class="why">
+    <h3>How they compare to the current form</h3>
+    <table>
+      <tr><td>Fields before "submit"</td><td>Current ~18 → these capture 4 to qualify, rest later</td></tr>
+      <tr><td>Feel</td><td>A: efficient &amp; familiar · B: human &amp; warm · Current: clinical/long</td></tr>
+      <tr><td>Best for</td><td>A: Google Search &amp; high-intent · B: cold Meta/TikTok social</td></tr>
+      <tr><td>Mobile-first</td><td>Both — most moms arrive on a phone</td></tr>
+      <tr><td>Privacy</td><td>No health data in the URL; consent captured; HIPAA-conscious copy</td></tr>
+    </table>
+  </div>
+
+  <div class="foot">Standalone HTML demos — no tracking, nothing stored. Submissions are simulated.<br>Wolomi brand colors used for realism; not affiliated with or endorsed by Wolomi.</div>
+</div>
+</body>
+</html>

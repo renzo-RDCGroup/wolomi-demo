@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Maternal Support — Wolomi (Demo)</title>
+<style>
+  :root{--navy:#1F3864;--blue:#2E75B6;--pink:#D4537E;--pink-soft:#FBEAF0;--ink:#22303f;--muted:#5b6877;--bg:#f6f8fb;--card:#fff;--ok:#1D9E75}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .demo-flag{background:var(--navy);color:#fff;text-align:center;font-size:12px;padding:6px;letter-spacing:.3px}
+  .wrap{max-width:520px;margin:0 auto;padding:20px 18px 48px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--navy);font-size:20px;margin:8px 0 18px;letter-spacing:-.5px}
+  .brand .dot{width:14px;height:14px;border-radius:50%;background:var(--pink)}
+  .hero h1{font-size:27px;line-height:1.2;letter-spacing:-.6px;color:var(--navy);margin-bottom:10px}
+  .hero p{color:var(--muted);font-size:16px;margin-bottom:16px}
+  .trust{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+  .pill{background:#fff;border:1px solid #e3e9f1;color:var(--navy);font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px;display:flex;align-items:center;gap:5px}
+  .card{background:var(--card);border:1px solid #e6ecf3;border-radius:18px;padding:20px 18px;box-shadow:0 8px 30px rgba(31,56,100,.06)}
+  .pbar{height:8px;background:#eef2f7;border-radius:999px;overflow:hidden;margin-bottom:6px}
+  .pfill{height:100%;width:0;background:linear-gradient(90deg,var(--pink),var(--blue));border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .pmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:18px}
+  .step{display:none;animation:fade .35s ease}
+  .step.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .q{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .qsub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+  .opts{display:grid;gap:10px}
+  .opt{border:1.5px solid #e1e8f0;border-radius:13px;padding:14px 15px;font-size:16px;font-weight:600;color:var(--ink);background:#fff;cursor:pointer;text-align:left;transition:.15s;display:flex;justify-content:space-between;align-items:center}
+  .opt:hover{border-color:var(--blue);background:#f7faff}
+  .opt.sel{border-color:var(--pink);background:var(--pink-soft);color:var(--navy)}
+  .opt .chk{opacity:0;color:var(--pink);font-weight:800}
+  .opt.sel .chk{opacity:1}
+  input[type=text],input[type=tel]{width:100%;border:1.5px solid #e1e8f0;border-radius:13px;padding:14px 15px;font-size:16px;margin-bottom:10px;font-family:inherit}
+  input:focus{outline:none;border-color:var(--blue)}
+  .btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:.15s}
+  .btn:hover{background:#16294a}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .back{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;margin-top:12px;padding:4px}
+  .micro{font-size:12.5px;color:var(--muted);text-align:center;margin-top:14px;display:flex;align-items:center;justify-content:center;gap:6px}
+  .success{text-align:center;display:none}
+  .success.show{display:block;animation:fade .4s}
+  .badge{width:64px;height:64px;border-radius:50%;background:#e1f5ee;color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+  .success h2{color:var(--navy);font-size:23px;margin-bottom:8px}
+  .success p{color:var(--muted);margin-bottom:14px}
+  .nextlist{text-align:left;background:#f7faff;border:1px solid #e6ecf3;border-radius:13px;padding:14px 16px;margin-top:6px}
+  .nextlist li{margin:0 0 8px 18px;font-size:14.5px}
+  .foot{font-size:12px;color:var(--muted);text-align:center;margin-top:26px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="demo-flag">DEMO — built by Renzo for the Wolomi interview · not a live Wolomi page</div>
+<div class="wrap">
+  <div class="brand"><span class="dot"></span>Wolomi</div>
+  <div class="hero">
+    <h1>You may qualify for <span style="color:var(--pink)">free</span> maternal support.</h1>
+    <p>Midwives, doulas, lactation help, and mental-health support — at no cost to eligible moms in San Diego &amp; Imperial County.</p>
+    <div class="trust">
+      <span class="pill">✓ 100% free</span>
+      <span class="pill">✓ Medi-Cal welcome</span>
+      <span class="pill">✓ Takes 30 seconds</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pmeta"><span id="pstep">Step 1 of 4</span><span id="ppct">Let's start 🌱</span></div>
+
+    <form id="form" onsubmit="return false">
+      <!-- Step 1 county -->
+      <div class="step active" data-step="0">
+        <div class="q">Where do you live?</div>
+        <div class="qsub">We currently serve these two counties.</div>
+        <div class="opts" data-field="county">
+          <button type="button" class="opt">San Diego County<span class="chk">✓</span></button>
+          <button type="button" class="opt">Imperial County<span class="chk">✓</span></button>
+          <button type="button" class="opt">Somewhere else<span class="chk">✓</span></button>
+        </div>
+      </div>
+      <!-- Step 2 life-stage -->
+      <div class="step" data-step="1">
+        <div class="q">Where are you in your journey?</div>
+        <div class="qsub">So we can match the right support.</div>
+        <div class="opts" data-field="stage">
+          <button type="button" class="opt">Pregnant<span class="chk">✓</span></button>
+          <button type="button" class="opt">Recently had a baby<span class="chk">✓</span></button>
+          <button type="button" class="opt">Trying / planning<span class="chk">✓</span></button>
+        </div>
+      </div>
+      <!-- Step 3 medicaid -->
+      <div class="step" data-step="2">
+        <div class="q">Do you have Medi-Cal?</div>
+        <div class="qsub">It's okay if you're not sure — we can help you check.</div>
+        <div class="opts" data-field="medical">
+          <button type="button" class="opt">Yes, I have Medi-Cal<span class="chk">✓</span></button>
+          <button type="button" class="opt">Not sure<span class="chk">✓</span></button>
+          <button type="button" class="opt">No / other insurance<span class="chk">✓</span></button>
+        </div>
+      </div>
+      <!-- Step 4 contact -->
+      <div class="step" data-step="3">
+        <div class="q">Last step — how do we reach you?</div>
+        <div class="qsub">A Mama Companion will confirm your benefits. No spam, ever.</div>
+        <input type="text" id="name" placeholder="First name">
+        <input type="tel" id="phone" placeholder="Phone number">
+        <div class="opts" data-field="contact" style="margin-top:4px">
+          <button type="button" class="opt">Text me 💬<span class="chk">✓</span></button>
+          <button type="button" class="opt">Call me 📞<span class="chk">✓</span></button>
+        </div>
+        <button class="btn" id="submit" disabled>See my free benefits →</button>
+      </div>
+
+      <button type="button" class="back" id="back" style="display:none">← Back</button>
+    </form>
+
+    <div class="success" id="success">
+      <div class="badge">✓</div>
+      <h2>Great news — you likely qualify!</h2>
+      <p>Based on your answers, you're eligible for free Wolomi support.</p>
+      <ul class="nextlist">
+        <li>A Mama Companion will reach out within 1 business day.</li>
+        <li>We'll confirm your Medi-Cal benefits — no paperwork stress.</li>
+        <li>You'll get matched to a midwife, doula &amp; support circle.</li>
+      </ul>
+      <p class="micro" style="margin-top:16px">🔒 Your information is private and HIPAA-conscious.</p>
+    </div>
+
+    <div class="micro" id="reassure">🔒 Private &amp; secure · We never sell your information</div>
+  </div>
+
+  <div class="foot">In partnership with VOA Southwest · Healthy Start Program<br>Demo only — submissions are not stored.</div>
+</div>
+
+<script>
+  var data={},cur=0,total=4;
+  var steps=document.querySelectorAll('.step');
+  var pfill=document.getElementById('pfill'),pstep=document.getElementById('pstep'),ppct=document.getElementById('ppct');
+  var backBtn=document.getElementById('back'),submitBtn=document.getElementById('submit');
+  var cheers=["Let's start 🌱","Nice 👏","You're doing great ✨","Almost there 💛","One more!"];
+
+  function render(){
+    steps.forEach(function(s,i){s.classList.toggle('active',i===cur)});
+    var pct=Math.round((cur/total)*100);
+    pfill.style.width=pct+'%';
+    pstep.textContent='Step '+(cur+1)+' of '+total;
+    ppct.textContent=cheers[cur]||'';
+    backBtn.style.display=cur>0?'block':'none';
+  }
+  document.querySelectorAll('.opts').forEach(function(group){
+    group.querySelectorAll('.opt').forEach(function(btn){
+      btn.addEventListener('click',function(){
+        group.querySelectorAll('.opt').forEach(function(b){b.classList.remove('sel')});
+        btn.classList.add('sel');
+        data[group.dataset.field]=btn.textContent.replace('✓','').trim();
+        if(group.dataset.field==='contact'){checkSubmit();return;}
+        setTimeout(function(){ if(cur<total-1){cur++;render();} },260);
+      });
+    });
+  });
+  function checkSubmit(){
+    var ok=document.getElementById('name').value.trim() && document.getElementById('phone').value.trim() && data.contact;
+    submitBtn.disabled=!ok;
+  }
+  document.getElementById('name').addEventListener('input',checkSubmit);
+  document.getElementById('phone').addEventListener('input',checkSubmit);
+  backBtn.addEventListener('click',function(){if(cur>0){cur--;render();}});
+  submitBtn.addEventListener('click',function(){
+    pfill.style.width='100%';pstep.textContent='Complete';ppct.textContent='Done! 🎉';
+    document.getElementById('form').style.display='none';
+    document.getElementById('reassure').style.display='none';
+    document.getElementById('success').classList.add('show');
+  });
+  render();
+</script>
+</body>
+</html>
