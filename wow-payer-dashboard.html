@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payer Outcomes Dashboard — Wolomi (Demo)</title>
+<style>
+  :root{--navy:#1F3864;--blue:#2E75B6;--pink:#D4537E;--ink:#22303f;--muted:#5b6877;--bg:#f4f7fb;--ok:#1D9E75}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  .flag{background:var(--navy);color:#fff;text-align:center;font-size:12px;padding:6px}
+  .wrap{max-width:980px;margin:0 auto;padding:22px 18px 50px}
+  .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:10px;margin-bottom:18px}
+  h1{color:var(--navy);font-size:23px}
+  .sub{color:var(--muted);font-size:14px}
+  .sel{border:1px solid #d8e0ea;border-radius:10px;padding:8px 12px;font-size:14px;background:#fff;font-family:inherit;color:var(--navy);font-weight:600}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:18px}
+  .kpi{background:#fff;border:1px solid #e6ecf3;border-radius:14px;padding:15px 16px}
+  .kpi .l{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .kpi .v{font-size:25px;font-weight:800;color:var(--navy);letter-spacing:-.5px}
+  .kpi .d{font-size:12px;font-weight:700;margin-top:4px}
+  .up{color:var(--ok)} .down{color:var(--ok)}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.grid{grid-template-columns:1fr}}
+  .card{background:#fff;border:1px solid #e6ecf3;border-radius:16px;padding:18px}
+  .card h3{font-size:15px;color:var(--navy);margin-bottom:4px}
+  .card .cap{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .legend{display:flex;gap:16px;font-size:12px;color:var(--muted);margin-bottom:8px}
+  .legend span{display:flex;align-items:center;gap:5px}
+  .dot{width:10px;height:10px;border-radius:2px;display:inline-block}
+  .foot{font-size:12px;color:var(--muted);margin-top:18px;text-align:center}
+  .note{background:#fff;border:1px solid #e6ecf3;border-left:4px solid var(--pink);border-radius:10px;padding:12px 14px;font-size:13px;color:#3a4654;margin-bottom:18px}
+</style>
+</head>
+<body>
+<div class="flag">DEMO — Payer-facing outcomes dashboard (illustrative sample data) · built by Renzo for the Wolomi interview</div>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <h1>Wolomi × Health Plan — Maternal Outcomes</h1>
+      <div class="sub">Birth Equity / ECM cohort · San Diego &amp; Imperial · rolling 12 months</div>
+    </div>
+    <select class="sel"><option>All plans</option><option>Molina</option><option>Health Net</option><option>Community Health Group</option></select>
+  </div>
+
+  <div class="note"><strong>Why this wins contracts:</strong> health plans buy outcomes, not ads. A dashboard like this is how Mae lands MCO deals — and it turns enrollment into a <em>sales asset</em>. Numbers below are illustrative placeholders to show the format.</div>
+
+  <div class="kpis">
+    <div class="kpi"><div class="l">Members enrolled</div><div class="v">487</div><div class="d up">▲ 38% vs prior 6 mo</div></div>
+    <div class="kpi"><div class="l">Preterm birth rate</div><div class="v">7.4%</div><div class="d up">▼ 41% vs benchmark</div></div>
+    <div class="kpi"><div class="l">C-section rate</div><div class="v">22%</div><div class="d up">▼ 26% vs benchmark</div></div>
+    <div class="kpi"><div class="l">Cost saved / member</div><div class="v">$4.0k</div><div class="d up">est. clinical savings</div></div>
+    <div class="kpi"><div class="l">12-mo retention</div><div class="v">71%</div><div class="d up">postpartum engagement</div></div>
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h3>Enrollments by month</h3>
+      <div class="cap">Eligible Medi-Cal moms enrolled into ECM support</div>
+      <div style="position:relative;height:260px"><canvas id="c1" role="img" aria-label="Monthly enrollments rising over 12 months"></canvas></div>
+    </div>
+    <div class="card">
+      <h3>Outcomes vs. benchmark</h3>
+      <div class="legend"><span><span class="dot" style="background:#D4537E"></span>Wolomi cohort</span><span><span class="dot" style="background:#b7c1cf"></span>County benchmark</span></div>
+      <div style="position:relative;height:260px"><canvas id="c2" role="img" aria-label="Wolomi outcomes better than benchmark on preterm, C-section, NICU and ER visits"></canvas></div>
+    </div>
+  </div>
+  <div class="foot">Illustrative demo only — replace with verified program data. Built to show how Wolomi could package outcomes for payer business development.</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+new Chart(document.getElementById('c1'),{type:'bar',
+ data:{labels:['Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr','May','Jun'],
+  datasets:[{label:'Enrollments',data:[18,24,29,33,38,41,45,52,58,61,68,74],backgroundColor:'#2E75B6',borderRadius:4}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+new Chart(document.getElementById('c2'),{type:'bar',
+ data:{labels:['Preterm %','C-section %','NICU days idx','ER visits idx'],
+  datasets:[
+   {label:'Wolomi',data:[7.4,22,40,75],backgroundColor:'#D4537E',borderRadius:4},
+   {label:'Benchmark',data:[12.5,30,100,100],backgroundColor:'#b7c1cf',borderRadius:4}]},
+ options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}});
+</script>
+</body>
+</html>

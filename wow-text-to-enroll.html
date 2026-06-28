@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Text-to-Enroll AI Navigator — Wolomi (Demo)</title>
+<style>
+  :root{--navy:#1F3864;--pink:#D4537E;--ink:#22303f;--muted:#5b6877;--bg:#0b141a;--wa:#005c4b;--in:#1f2c34}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;background:#eef2f8;color:var(--ink);-webkit-font-smoothing:antialiased}
+  .flag{background:var(--navy);color:#fff;text-align:center;font-size:12px;padding:6px}
+  .stage{max-width:560px;margin:0 auto;padding:18px 16px 40px}
+  .lead{text-align:center;margin-bottom:14px}
+  .lead h1{color:var(--navy);font-size:21px;margin-bottom:4px}
+  .lead p{color:var(--muted);font-size:14px}
+  .kw{display:inline-block;background:#fff;border:1px dashed var(--pink);color:var(--navy);font-weight:700;border-radius:10px;padding:8px 14px;margin:8px 0;font-size:15px}
+  .phone{max-width:380px;margin:10px auto 0;background:var(--bg);border-radius:26px;overflow:hidden;box-shadow:0 16px 50px rgba(15,30,60,.3);border:6px solid #0b141a}
+  .wabar{background:#202c33;color:#e9edef;padding:12px 14px;display:flex;align-items:center;gap:10px}
+  .av{width:36px;height:36px;border-radius:50%;background:var(--pink);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:14px}
+  .wabar .nm{font-weight:600;font-size:14px}
+  .wabar .st{font-size:11px;color:#8696a0}
+  .chat{padding:14px 12px;min-height:420px;max-height:60vh;overflow-y:auto;display:flex;flex-direction:column;gap:8px;background:#0b141a}
+  .b{max-width:80%;padding:8px 11px;border-radius:9px;font-size:14.5px;line-height:1.4;white-space:pre-wrap}
+  .bot{align-self:flex-start;background:var(--in);color:#e9edef;border-top-left-radius:2px}
+  .me{align-self:flex-end;background:var(--wa);color:#e9edef;border-top-right-radius:2px}
+  .typing{align-self:flex-start;background:var(--in);color:#8696a0;padding:10px 14px;border-radius:9px;font-size:18px;letter-spacing:2px}
+  .tray{padding:10px 12px;background:#202c33;display:flex;flex-wrap:wrap;gap:7px}
+  .chip{background:#2a3942;border:none;color:#e9edef;border-radius:16px;padding:9px 13px;font-size:14px;cursor:pointer;font-family:inherit}
+  .chip:hover{background:#34464f}
+  .note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.5}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:8px}
+  .tag{background:#fff;border:1px solid #e3e9f1;color:var(--navy);font-size:11.5px;font-weight:600;border-radius:999px;padding:4px 10px}
+</style>
+</head>
+<body>
+<div class="flag">DEMO — "Text-to-Enroll" AI Navigator · built by Renzo for the Wolomi interview</div>
+<div class="stage">
+  <div class="lead">
+    <h1>Meet moms where they already are: their texts</h1>
+    <p>No app download, no web form. She texts a keyword; a HIPAA-safe AI agent does the rest — 24/7, bilingual.</p>
+    <div class="kw">Text <b>MAMA</b> to 52537</div>
+    <div class="tags"><span class="tag">Checks eligibility</span><span class="tag">Explains the doula benefit</span><span class="tag">Books her companion</span><span class="tag">Hands off to a human</span></div>
+  </div>
+
+  <div class="phone">
+    <div class="wabar"><div class="av">W</div><div><div class="nm">Wolomi Support</div><div class="st" id="st">online · typically replies instantly</div></div></div>
+    <div class="chat" id="chat"></div>
+    <div class="tray" id="tray"></div>
+  </div>
+  <div class="note">Demo simulates the conversation. In production: Twilio (BAA) for SMS/WhatsApp + a HIPAA-compliant AI model, with a warm handoff to a Mama Companion and lead written to a BAA-covered datastore.</div>
+</div>
+
+<script>
+var chat=document.getElementById('chat'),tray=document.getElementById('tray'),st=document.getElementById('st'),data={};
+function scroll(){chat.scrollTop=chat.scrollHeight}
+function me(t){var d=document.createElement('div');d.className='b me';d.textContent=t;chat.appendChild(d);scroll();}
+function bot(t,cb){
+  var ty=document.createElement('div');ty.className='typing';ty.textContent='•••';chat.appendChild(ty);scroll();
+  st.textContent='typing…';
+  setTimeout(function(){ty.remove();st.textContent='online · typically replies instantly';var d=document.createElement('div');d.className='b bot';d.textContent=t;chat.appendChild(d);scroll();if(cb)cb();},800);
+}
+function chips(arr){tray.innerHTML='';arr.forEach(function(o){var b=document.createElement('button');b.className='chip';b.textContent=o.t;b.onclick=o.f;tray.appendChild(b);});}
+
+function start(){
+  me('MAMA');
+  bot("Hi mama 💛 I'm Wolomi's support assistant. I can check if you qualify for FREE maternal support in about 1 minute — and a real Mama Companion takes it from there. Ready?",function(){
+    chips([{t:"Yes, let's go",f:q1},{t:"What is this?",f:about}]);
+  });
+}
+function about(){me('What is this?');bot("Wolomi gives eligible moms a personal Mama Companion, midwife, lactation help and a community — free, through Medi-Cal and our VOA Healthy Start partnership. Want to see if you qualify?",function(){chips([{t:"Yes, check me",f:q1}]);});}
+function q1(){me("Yes");bot("Great! First — which county are you in?",function(){chips([{t:"San Diego",f:function(){pick('county','San Diego',q2)}},{t:"Imperial",f:function(){pick('county','Imperial',q2)}},{t:"Other",f:function(){pick('county','Other',q2)}}]);});}
+function q2(){bot("Got it. Where are you in your journey?",function(){chips([{t:"Pregnant",f:function(){pick('stage','Pregnant',q3)}},{t:"Just had a baby",f:function(){pick('stage','Postpartum',q3)}},{t:"Planning",f:function(){pick('stage','Planning',q3)}}]);});}
+function q3(){bot("Thank you. Do you have Medi-Cal? (It's okay if you're not sure.)",function(){chips([{t:"Yes",f:function(){pick('medical','Yes',verdict)}},{t:"Not sure",f:function(){pick('medical','Not sure',verdict)}},{t:"No",f:function(){pick('medical','No',verdict)}}]);});}
+function pick(k,v,next){data[k]=v;me(v);next();}
+function verdict(){
+  var eligible=(data.county==='San Diego'||data.county==='Imperial')&&(data.stage==='Pregnant'||data.stage==='Postpartum')&&(data.medical!=='No');
+  if(eligible){
+    bot("Wonderful news — based on your answers, you very likely qualify! 🎉 Here's what's free for you:\n\n• A personal Mama Companion\n• Midwife & lactation support\n• Maternal mental-health support\n• A community of moms",function(){
+      bot("When's a good time for your Companion to text you?",function(){chips([{t:"Morning",f:book},{t:"Afternoon",f:book},{t:"Evening",f:book}]);});
+    });
+  } else {
+    bot("Thank you for sharing 💛 You may not fit this specific program, but I can still point you to free local resources and check other options. Want me to have someone reach out?",function(){chips([{t:"Yes please",f:book}]);});
+  }
+}
+function book(e){me(e&&e.target?e.target.textContent:'Okay');
+  bot("Perfect — I've booked your slot and a real Mama Companion will text you then 💛 You're all set, mama. (A human has been notified now.)",function(){
+    st.textContent='handed off to a Mama Companion';chips([{t:"Restart demo",f:function(){chat.innerHTML='';data={};start();}}]);
+  });
+}
+start();
+</script>
+</body>
+</html>
