@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Maternal Support — Wolomi (Demo v3)</title>
+<style>
+  :root{--navy:#1F3864;--blue:#2E75B6;--pink:#D4537E;--pink-soft:#FBEAF0;--ink:#22303f;--muted:#5b6877;--bg:#f6f8fb;--card:#fff;--ok:#1D9E75}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+  .demo-flag{background:var(--navy);color:#fff;text-align:center;font-size:12px;padding:6px}
+  .wrap{max-width:520px;margin:0 auto;padding:16px 18px 48px}
+  .bartop{display:flex;align-items:center;justify-content:space-between;margin:6px 0 16px}
+  .brand{display:flex;align-items:center;gap:8px;font-weight:800;color:var(--navy);font-size:20px;letter-spacing:-.5px}
+  .brand .dot{width:14px;height:14px;border-radius:50%;background:var(--pink)}
+  .lang{display:flex;border:1px solid #d8e0ea;border-radius:999px;overflow:hidden;font-size:13px;font-weight:700}
+  .lang button{border:none;background:#fff;color:var(--muted);padding:6px 12px;cursor:pointer;font-family:inherit}
+  .lang button.on{background:var(--navy);color:#fff}
+  h1{font-size:26px;line-height:1.2;letter-spacing:-.6px;color:var(--navy);margin-bottom:8px}
+  .sub{color:var(--muted);font-size:15.5px;margin-bottom:14px}
+  .trust{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+  .pill{background:#fff;border:1px solid #e3e9f1;color:var(--navy);font-size:12.5px;font-weight:600;padding:6px 11px;border-radius:999px}
+  .companion{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid #e6ecf3;border-radius:16px;padding:13px 15px;margin-bottom:16px}
+  .ava{width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--blue));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0}
+  .companion .nm{font-weight:700;color:var(--navy);font-size:15px}
+  .companion .meta{font-size:12.5px;color:var(--muted)}
+  .card{background:var(--card);border:1px solid #e6ecf3;border-radius:18px;padding:20px 18px;box-shadow:0 8px 30px rgba(31,56,100,.06)}
+  .pbar{height:8px;background:#eef2f7;border-radius:999px;overflow:hidden;margin-bottom:6px}
+  .pfill{height:100%;width:20%;background:linear-gradient(90deg,var(--pink),var(--blue));border-radius:999px;transition:width .45s cubic-bezier(.2,.8,.2,1)}
+  .pmeta{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-bottom:16px}
+  .step{display:none;animation:fade .35s ease}
+  .step.active{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .q{font-size:19px;font-weight:700;color:var(--navy);margin-bottom:4px}
+  .qsub{font-size:13.5px;color:var(--muted);margin-bottom:16px}
+  .opts{display:grid;gap:10px}
+  .opt{border:1.5px solid #e1e8f0;border-radius:13px;padding:14px 15px;font-size:16px;font-weight:600;color:var(--ink);background:#fff;cursor:pointer;text-align:left;transition:.15s}
+  .opt:hover{border-color:var(--blue);background:#f7faff}
+  .opt.sel{border-color:var(--pink);background:var(--pink-soft);color:var(--navy)}
+  input,select{width:100%;border:1.5px solid #e1e8f0;border-radius:13px;padding:14px 15px;font-size:16px;margin-bottom:10px;font-family:inherit}
+  input:focus,select:focus{outline:none;border-color:var(--blue)}
+  .btn{width:100%;background:var(--navy);color:#fff;border:none;border-radius:13px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;margin-top:6px;transition:.15s}
+  .btn:hover{background:#16294a}
+  .btn[disabled]{opacity:.45;cursor:not-allowed}
+  .alt{display:flex;gap:10px;margin-top:12px}
+  .alt a{flex:1;text-align:center;border:1.5px solid #d8e0ea;border-radius:13px;padding:12px;font-size:14px;font-weight:700;text-decoration:none;color:var(--navy);background:#fff}
+  .reassure{font-size:12.5px;color:var(--muted);margin-top:14px;line-height:1.5}
+  .reassure .safe{display:block;background:#eafaf3;border:1px solid #cdeede;color:#0c6b4f;border-radius:10px;padding:9px 11px;margin-top:10px;font-weight:600}
+  .back{background:none;border:none;color:var(--muted);font-size:14px;cursor:pointer;margin-top:10px;padding:4px}
+  .success{text-align:center;display:none}
+  .success.show{display:block;animation:fade .4s}
+  .badge{width:64px;height:64px;border-radius:50%;background:#e1f5ee;color:var(--ok);display:flex;align-items:center;justify-content:center;font-size:34px;margin:0 auto 14px}
+  .success h2{color:var(--navy);font-size:22px;margin-bottom:8px}
+  .gift{background:#FBEAF0;border:1px solid #f3c9d9;border-radius:13px;padding:13px 15px;margin-top:12px;font-size:14px;color:#8a2d4e;font-weight:600}
+  .press{margin-top:18px;text-align:center}
+  .press .lbl{font-weight:700;letter-spacing:1.5px;color:#9aa3b0;font-size:10.5px;margin-bottom:9px}
+  .press .row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 22px;filter:grayscale(1);opacity:.72}
+  .foot{font-size:12px;color:var(--muted);text-align:center;margin-top:24px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="demo-flag">DEMO v3 (phone-first) — built by Renzo for the Wolomi interview · not a live Wolomi page</div>
+<div class="wrap">
+  <div class="bartop">
+    <div class="brand"><span class="dot"></span>Wolomi</div>
+    <div class="lang"><button id="enBtn" class="on" onclick="setLang('en')">EN</button><button id="esBtn" onclick="setLang('es')">ES</button></div>
+  </div>
+
+  <h1 id="h1">Free maternal support — a real person, just for you.</h1>
+  <p class="sub" id="sub">Midwives, doulas, lactation & mental-health support for eligible moms in San Diego & Imperial County.</p>
+
+  <div class="trust">
+    <span class="pill" id="p1">✓ 100% free</span>
+    <span class="pill" id="p2">✓ Medi-Cal welcome</span>
+    <span class="pill" id="p3">✓ A real human, not a bot</span>
+  </div>
+
+  <div class="companion">
+    <div class="ava">M</div>
+    <div>
+      <div class="nm" id="compName">Meet Maya, a Mama Companion</div>
+      <div class="meta" id="compMeta">Speaks English & Spanish · Serving Chula Vista & El Centro</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="pbar"><div class="pfill" id="pfill"></div></div>
+    <div class="pmeta"><span id="pstep">Step 1 of 4</span><span id="pcheer">Takes 30 seconds 🌱</span></div>
+
+    <form id="form" onsubmit="return false">
+      <!-- Step 1: PHONE FIRST (partial capture) -->
+      <div class="step active" data-step="0">
+        <div class="q" id="q0">Want free support? Drop your number.</div>
+        <div class="qsub" id="q0sub">A real Mama Companion will text you within minutes — no spam, ever.</div>
+        <input type="text" id="name" placeholder="First name">
+        <input type="tel" id="phone" placeholder="Phone number">
+        <button class="btn" id="phoneBtn" disabled>Text me free support →</button>
+        <div class="alt">
+          <a href="tel:+10000000000" id="callLink">📞 Call instead</a>
+          <a href="https://wa.me/10000000000" id="waLink">💬 WhatsApp</a>
+        </div>
+        <div class="reassure">
+          🔒 <span id="hipaa">Private & HIPAA-conscious. We never sell your info.</span>
+          <span class="safe" id="immig">We never ask about immigration status — and using Medi-Cal pregnancy benefits won't affect it.</span>
+        </div>
+      </div>
+      <!-- Step 2: county -->
+      <div class="step" data-step="1">
+        <div class="q" id="q1">Where do you live?</div>
+        <div class="qsub" id="q1sub">We currently serve these two counties.</div>
+        <div class="opts" data-field="county">
+          <button type="button" class="opt" data-en="San Diego County" data-es="Condado de San Diego">San Diego County</button>
+          <button type="button" class="opt" data-en="Imperial County" data-es="Condado de Imperial">Imperial County</button>
+          <button type="button" class="opt" data-en="Somewhere else" data-es="Otro lugar">Somewhere else</button>
+        </div>
+      </div>
+      <!-- Step 3: life-stage -->
+      <div class="step" data-step="2">
+        <div class="q" id="q2">Where are you in your journey?</div>
+        <div class="qsub" id="q2sub">So we can match the right support.</div>
+        <div class="opts" data-field="stage">
+          <button type="button" class="opt" data-en="Pregnant" data-es="Embarazada">Pregnant</button>
+          <button type="button" class="opt" data-en="Recently had a baby" data-es="Recién tuve un bebé">Recently had a baby</button>
+          <button type="button" class="opt" data-en="Trying / planning" data-es="Planeando / intentando">Trying / planning</button>
+        </div>
+      </div>
+      <!-- Step 4: medicaid + callback -->
+      <div class="step" data-step="3">
+        <div class="q" id="q3">Do you have Medi-Cal?</div>
+        <div class="qsub" id="q3sub">Not sure? We'll help you check — no pressure.</div>
+        <div class="opts" data-field="medical" style="margin-bottom:14px">
+          <button type="button" class="opt" data-en="Yes, I have Medi-Cal" data-es="Sí, tengo Medi-Cal">Yes, I have Medi-Cal</button>
+          <button type="button" class="opt" data-en="Not sure" data-es="No estoy segura">Not sure</button>
+          <button type="button" class="opt" data-en="No / other insurance" data-es="No / otro seguro">No / other insurance</button>
+        </div>
+        <label style="font-size:13.5px;color:var(--muted);font-weight:600" id="cbLabel">Best time for your companion to reach you:</label>
+        <select id="callback" style="margin-top:6px">
+          <option id="cb1">Morning (9am–12pm)</option>
+          <option id="cb2">Afternoon (12–4pm)</option>
+          <option id="cb3">Evening (4–7pm)</option>
+          <option id="cb4">Anytime is fine</option>
+        </select>
+        <button class="btn" id="finishBtn">See my free benefits →</button>
+      </div>
+
+      <button type="button" class="back" id="back" style="display:none">← Back</button>
+    </form>
+
+    <div class="success" id="success">
+      <div class="badge">✓</div>
+      <h2 id="sucH">You're in — and you likely qualify! 🎉</h2>
+      <p class="sub" id="sucP">Maya will text you at the time you chose to confirm your free benefits.</p>
+      <div class="gift" id="gift">🎁 Welcome gift: complete enrollment and get a free Wolomi diaper bag.</div>
+      <div class="reassure" style="margin-top:14px">🔒 <span id="sucSafe">Your info is private. We never ask about immigration status.</span></div>
+    </div>
+
+    <div class="reassureTiny" id="capnote" style="font-size:11.5px;color:var(--muted);text-align:center;margin-top:14px"></div>
+  </div>
+
+  <div class="press">
+    <div class="lbl" id="featured">AS FEATURED IN</div>
+    <div class="row">
+      <span style="font-family:Georgia,serif;font-weight:700;font-size:21px;color:#3a4654;letter-spacing:-.5px">Forbes</span>
+      <span style="font-family:Arial,sans-serif;font-weight:800;font-size:17px;color:#3a4654;letter-spacing:3px">ESSENCE</span>
+      <span style="font-family:'Didot',Georgia,serif;font-weight:600;font-size:20px;color:#3a4654">Glamour</span>
+    </div>
+  </div>
+
+  <div class="foot" id="foot">In partnership with VOA Southwest · Healthy Start Program · Demo only — nothing is stored.</div>
+</div>
+
+<script>
+var T={
+ en:{h1:"Free maternal support — a real person, just for you.",sub:"Midwives, doulas, lactation & mental-health support for eligible moms in San Diego & Imperial County.",
+   p1:"✓ 100% free",p2:"✓ Medi-Cal welcome",p3:"✓ A real human, not a bot",
+   compName:"Meet Maya, a Mama Companion",compMeta:"Speaks English & Spanish · Serving Chula Vista & El Centro",
+   q0:"Want free support? Drop your number.",q0sub:"A real Mama Companion will text you within minutes — no spam, ever.",
+   phoneBtn:"Text me free support →",callLink:"📞 Call instead",waLink:"💬 WhatsApp",
+   hipaa:"Private & HIPAA-conscious. We never sell your info.",immig:"We never ask about immigration status — and using Medi-Cal pregnancy benefits won't affect it.",
+   q1:"Where do you live?",q1sub:"We currently serve these two counties.",
+   q2:"Where are you in your journey?",q2sub:"So we can match the right support.",
+   q3:"Do you have Medi-Cal?",q3sub:"Not sure? We'll help you check — no pressure.",
+   cbLabel:"Best time for your companion to reach you:",finishBtn:"See my free benefits →",
+   name:"First name",phone:"Phone number",back:"← Back",featured:"AS FEATURED IN",
+   sucH:"You're in — and you likely qualify! 🎉",sucP:"Maya will text you at the time you chose to confirm your free benefits.",
+   gift:"🎁 Welcome gift: complete enrollment and get a free Wolomi diaper bag.",sucSafe:"Your info is private. We never ask about immigration status.",
+   cap:"Step 1 saves your number first — so we can reach you even if you stop here.",
+   cb:["Morning (9am–12pm)","Afternoon (12–4pm)","Evening (4–7pm)","Anytime is fine"],
+   step:"Step",of:"of",cheer:["Takes 30 seconds 🌱","Got it 👏","Almost there 💛","Last one!"],foot:"In partnership with VOA Southwest · Healthy Start Program · Demo only — nothing is stored."},
+ es:{h1:"Apoyo de maternidad gratis — una persona real, para ti.",sub:"Parteras, doulas, lactancia y apoyo de salud mental para mamás elegibles en los condados de San Diego e Imperial.",
+   p1:"✓ 100% gratis",p2:"✓ Medi-Cal bienvenido",p3:"✓ Una persona real, no un bot",
+   compName:"Conoce a Maya, una Mama Companion",compMeta:"Habla inglés y español · Sirve a Chula Vista y El Centro",
+   q0:"¿Quieres apoyo gratis? Déjanos tu número.",q0sub:"Una Mama Companion real te enviará un mensaje en minutos — sin spam, nunca.",
+   phoneBtn:"Envíenme apoyo gratis →",callLink:"📞 Llamar",waLink:"💬 WhatsApp",
+   hipaa:"Privado y conforme a HIPAA. Nunca vendemos su información.",immig:"Nunca preguntamos sobre estatus migratorio — y usar los beneficios de embarazo de Medi-Cal no lo afecta.",
+   q1:"¿Dónde vives?",q1sub:"Actualmente servimos a estos dos condados.",
+   q2:"¿En qué etapa estás?",q2sub:"Para encontrar el apoyo correcto.",
+   q3:"¿Tienes Medi-Cal?",q3sub:"¿No estás segura? Te ayudamos a verificar — sin presión.",
+   cbLabel:"Mejor hora para que tu companion te contacte:",finishBtn:"Ver mis beneficios gratis →",
+   name:"Nombre",phone:"Número de teléfono",back:"← Atrás",featured:"PRESENTADO EN",
+   sucH:"¡Estás dentro — y probablemente calificas! 🎉",sucP:"Maya te enviará un mensaje a la hora que elegiste para confirmar tus beneficios gratis.",
+   gift:"🎁 Regalo de bienvenida: completa tu inscripción y recibe una pañalera Wolomi gratis.",sucSafe:"Tu información es privada. Nunca preguntamos sobre estatus migratorio.",
+   cap:"El paso 1 guarda tu número primero — para poder contactarte aunque no termines.",
+   cb:["Mañana (9am–12pm)","Tarde (12–4pm)","Noche (4–7pm)","Cualquier hora"],
+   step:"Paso",of:"de",cheer:["Toma 30 segundos 🌱","Listo 👏","Casi terminas 💛","¡La última!"],foot:"En alianza con VOA Southwest · Programa Healthy Start · Solo demostración — no se guarda nada."}
+};
+var lang='en',cur=0,total=4,data={};
+var steps=document.querySelectorAll('.step');
+function $(id){return document.getElementById(id)}
+function setLang(l){
+  lang=l;$('enBtn').classList.toggle('on',l==='en');$('esBtn').classList.toggle('on',l==='es');
+  var d=T[l];
+  ['h1','sub','p1','p2','p3','compName','compMeta','q0','q0sub','q1','q1sub','q2','q2sub','q3','q3sub','cbLabel','featured','foot','immig','hipaa'].forEach(function(k){if($(k))$(k).textContent=d[k]});
+  $('phoneBtn').textContent=d.phoneBtn;$('finishBtn').textContent=d.finishBtn;$('callLink').textContent=d.callLink;$('waLink').textContent=d.waLink;$('back').textContent=d.back;
+  $('name').placeholder=d.name;$('phone').placeholder=d.phone;
+  $('cb1').textContent=d.cb[0];$('cb2').textContent=d.cb[1];$('cb3').textContent=d.cb[2];$('cb4').textContent=d.cb[3];
+  $('sucH').textContent=d.sucH;$('sucP').textContent=d.sucP;$('gift').textContent=d.gift;$('sucSafe').textContent=d.sucSafe;
+  $('capnote').textContent=d.cap;
+  document.querySelectorAll('.opt[data-en]').forEach(function(o){o.textContent=o.getAttribute('data-'+l)});
+  render();
+}
+function render(){
+  steps.forEach(function(s,i){s.classList.toggle('active',i===cur)});
+  $('pfill').style.width=((cur+1)/total*100)+'%';
+  var d=T[lang];
+  $('pstep').textContent=d.step+' '+(cur+1)+' '+d.of+' '+total;
+  $('pcheer').textContent=d.cheer[cur]||'';
+  $('back').style.display=cur>0?'block':'none';
+}
+function checkPhone(){$('phoneBtn').disabled=!($('phone').value.trim()&&$('name').value.trim())}
+$('name').addEventListener('input',checkPhone);$('phone').addEventListener('input',checkPhone);
+$('phoneBtn').addEventListener('click',function(){
+  data.name=$('name').value;data.phone=$('phone').value;
+  // PARTIAL CAPTURE: lead saved here. (demo: no real send)
+  cur=1;render();
+});
+document.querySelectorAll('.opts').forEach(function(g){
+  g.querySelectorAll('.opt').forEach(function(b){
+    b.addEventListener('click',function(){
+      g.querySelectorAll('.opt').forEach(function(x){x.classList.remove('sel')});
+      b.classList.add('sel');data[g.dataset.field]=b.getAttribute('data-en');
+      if(g.dataset.field==='medical')return;
+      setTimeout(function(){if(cur<total-1){cur++;render();}},240);
+    });
+  });
+});
+$('back').addEventListener('click',function(){if(cur>0){cur--;render();}});
+$('finishBtn').addEventListener('click',function(){
+  data.callback=$('callback').value;
+  $('pfill').style.width='100%';
+  $('form').style.display='none';$('capnote').style.display='none';
+  $('success').classList.add('show');
+});
+setLang('en');
+</script>
+</body>
+</html>
